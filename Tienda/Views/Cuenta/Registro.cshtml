@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Registro";
+}
+
+<div class="section auth-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="auth-card">
+                    <div class="auth-header text-center">
+                        <h2>Crear Cuenta</h2>
+                        <p>Regístrese para comprar ropa, accesorios y productos disponibles en nuestra tienda.</p>
+                    </div>
+
+                    <form>
+                        <div class="form-group">
+                            <label>Nombre completo</label>
+                            <input class="input" type="text" placeholder="Ingrese su nombre completo">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Correo electrónico</label>
+                            <input class="input" type="email" placeholder="ejemplo@correo.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input class="input" type="tel" placeholder="8888-8888">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <input class="input" type="text" placeholder="Ingrese su dirección">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input class="input" type="password" placeholder="Cree una contraseña">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Confirmar contraseña</label>
+                            <input class="input" type="password" placeholder="Repita su contraseña">
+                        </div>
+
+                        <button type="button" class="primary-btn auth-btn">Registrarme</button>
+
+                        <div class="auth-links text-center">
+                            <span>¿Ya tiene cuenta?</span>
+                            <a href="@Url.Action("Login", "Cuenta")">Iniciar sesión</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

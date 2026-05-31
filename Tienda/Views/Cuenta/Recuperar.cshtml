@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Recuperar Acceso";
+}
+
+<div class="section auth-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-3">
+                <div class="auth-card">
+                    <div class="auth-header text-center">
+                        <h2>Recuperar Acceso</h2>
+                        <p>Ingrese su correo electrónico para simular la recuperación de contraseña.</p>
+                    </div>
+
+                    <form>
+                        <div class="form-group">
+                            <label>Correo electrónico</label>
+                            <input class="input" type="email" placeholder="ejemplo@correo.com">
+                        </div>
+
+                        <button type="button" class="primary-btn auth-btn">Enviar solicitud</button>
+
+                        <div class="auth-links text-center">
+                            <a href="@Url.Action("Login", "Cuenta")">Volver al inicio de sesión</a>
+                        </div>
+                    </form>
+
+                    <div class="auth-note">
+                        <p>
+                            Nota: Esta pantalla es únicamente visual para la práctica.
+                            No realiza envío real de correos electrónicos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
