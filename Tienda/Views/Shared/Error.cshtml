@@ -1,13 +1,16 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
-<body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
-</body>
-</html>
+@{
+    ViewBag.Title = "Error";
+}
+
+<div class="section auth-section">
+    <div class="container">
+        <div class="auth-card text-center">
+            <i class="fa fa-exclamation-triangle profile-icon"></i>
+            <h2>Ocurrió un error</h2>
+            <p>No fue posible completar la operación.</p>
+            <a class="primary-btn" href="@Url.Action("Index", "Home")">
+                Volver al inicio
+            </a>
+        </div>
+    </div>
+</div>

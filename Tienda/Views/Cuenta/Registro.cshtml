@@ -1,4 +1,6 @@
-﻿@{
+@model Tienda.Models.UsuarioModel
+
+@{
     ViewBag.Title = "Registro";
 }
 
@@ -8,50 +10,99 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="auth-card">
                     <div class="auth-header text-center">
-                        <h2>Crear Cuenta</h2>
-                        <p>Regístrese para comprar ropa, accesorios y productos disponibles en nuestra tienda.</p>
+                        <h2>Crear cuenta</h2>
+                        <p>Regístrese para comprar ropa y accesorios en Ágata.</p>
                     </div>
 
-                    <form>
-                        <div class="form-group">
-                            <label>Nombre completo</label>
-                            <input class="input" type="text" placeholder="Ingrese su nombre completo">
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Mensaje
+                        </div>
+                    }
+
+                    @using (Html.BeginForm("Registro", "Cuenta", FormMethod.Post,
+                        new { id = "RegistroForm", autocomplete = "off" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nombre</label>
+                                    @Html.TextBoxFor(m => m.Nombre, new
+                                    {
+                                        @class = "input",
+                                        @placeholder = "Nombre"
+                                    })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Apellido</label>
+                                    @Html.TextBoxFor(m => m.Apellido, new
+                                    {
+                                        @class = "input",
+                                        @placeholder = "Apellido"
+                                    })
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label>Correo electrónico</label>
-                            <input class="input" type="email" placeholder="ejemplo@correo.com">
+                            @Html.TextBoxFor(m => m.Correo, new
+                            {
+                                @class = "input",
+                                @type = "email",
+                                @placeholder = "ejemplo@correo.com"
+                            })
                         </div>
 
                         <div class="form-group">
                             <label>Teléfono</label>
-                            <input class="input" type="tel" placeholder="8888-8888">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Dirección</label>
-                            <input class="input" type="text" placeholder="Ingrese su dirección">
+                            @Html.TextBoxFor(m => m.Telefono, new
+                            {
+                                @class = "input",
+                                @type = "tel",
+                                @placeholder = "8888-8888"
+                            })
                         </div>
 
                         <div class="form-group">
                             <label>Contraseña</label>
-                            <input class="input" type="password" placeholder="Cree una contraseña">
+                            @Html.PasswordFor(m => m.Contrasena, new
+                            {
+                                @class = "input",
+                                @placeholder = "Mínimo 8 caracteres"
+                            })
                         </div>
 
                         <div class="form-group">
                             <label>Confirmar contraseña</label>
-                            <input class="input" type="password" placeholder="Repita su contraseña">
+                            @Html.PasswordFor(m => m.ConfirmarContrasena, new
+                            {
+                                @class = "input",
+                                @placeholder = "Repita la contraseña"
+                            })
                         </div>
 
-                        <button type="button" class="primary-btn auth-btn">Registrarme</button>
+                        <button type="submit" class="primary-btn auth-btn">
+                            Registrarme
+                        </button>
+                    }
 
-                        <div class="auth-links text-center">
-                            <span>¿Ya tiene cuenta?</span>
-                            <a href="@Url.Action("Login", "Cuenta")">Iniciar sesión</a>
-                        </div>
-                    </form>
+                    <div class="auth-links text-center">
+                        <span>¿Ya tiene cuenta?</span>
+                        <a href="@Url.Action("Login", "Cuenta")">
+                            Iniciar sesión
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/registro.js")"></script>
+}

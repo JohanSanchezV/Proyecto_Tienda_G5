@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "Iniciar Sesión";
+@model Tienda.Models.UsuarioModel
+
+@{
+    ViewBag.Title = "Iniciar sesión";
 }
 
 <div class="section auth-section">
@@ -8,42 +10,67 @@
             <div class="col-md-5 col-md-offset-3">
                 <div class="auth-card">
                     <div class="auth-header text-center">
-                        <h2>Iniciar Sesión</h2>
-                        <p>Ingrese a su cuenta para continuar comprando en Ágata MakeUp.</p>
+                        <h2>Iniciar sesión</h2>
+                        <p>Ingrese a su cuenta para continuar comprando en Ágata.</p>
                     </div>
 
-                    <form>
+                    @if (TempData["MensajeExito"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["MensajeExito"]
+                        </div>
+                    }
+
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Mensaje
+                        </div>
+                    }
+
+                    @using (Html.BeginForm("Login", "Cuenta", FormMethod.Post,
+                        new { id = "LoginForm", autocomplete = "off" }))
+                    {
                         <div class="form-group">
                             <label>Correo electrónico</label>
-                            <input class="input" type="email" placeholder="ejemplo@correo.com">
+                            @Html.TextBoxFor(m => m.Correo, new
+                            {
+                                @class = "input",
+                                @type = "email",
+                                @placeholder = "ejemplo@correo.com"
+                            })
                         </div>
 
                         <div class="form-group">
                             <label>Contraseña</label>
-                            <input class="input" type="password" placeholder="Ingrese su contraseña">
+                            @Html.PasswordFor(m => m.Contrasena, new
+                            {
+                                @class = "input",
+                                @placeholder = "Ingrese su contraseña"
+                            })
                         </div>
 
-                        <div class="form-group">
-                            <div class="input-checkbox">
-                                <input type="checkbox" id="recordarme">
-                                <label for="recordarme">
-                                    <span></span>
-                                    Recordarme
-                                </label>
-                            </div>
-                        </div>
+                        <button type="submit" class="primary-btn auth-btn">
+                            Ingresar
+                        </button>
+                    }
 
-                        <button type="button" class="primary-btn auth-btn">Ingresar</button>
-
-                        <div class="auth-links text-center">
-                            <a href="@Url.Action("Recuperar", "Cuenta")">¿Olvidó su contraseña?</a>
-                            <br>
-                            <span>¿No tiene cuenta?</span>
-                            <a href="@Url.Action("Registro", "Cuenta")">Crear cuenta</a>
-                        </div>
-                    </form>
+                    <div class="auth-links text-center">
+                        <a href="@Url.Action("Recuperar", "Cuenta")">
+                            ¿Olvidó su contraseña?
+                        </a>
+                        <br />
+                        <span>¿No tiene cuenta?</span>
+                        <a href="@Url.Action("Registro", "Cuenta")">
+                            Crear cuenta
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/login.js")"></script>
+}

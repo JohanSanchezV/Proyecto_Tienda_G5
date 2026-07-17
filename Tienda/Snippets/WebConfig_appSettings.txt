@@ -1,0 +1,7 @@
+Dentro de <appSettings> agregue:
+
+<add key="VigenciaMinutos" value="25" />
+<add key="CorreoSalida" value="" />
+<add key="ContrasennaCorreoSalida" value="" />
+
+La conexión Entity Framework se agrega automáticamente al crear AgataModel.edmx.

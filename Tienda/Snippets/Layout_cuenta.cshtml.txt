@@ -1,0 +1,54 @@
+REEMPLACE el elemento "Mi Cuenta" del top header por este bloque:
+
+@if (Session["IdUsuario"] == null)
+{
+    <li>
+        <a href="@Url.Action("Login", "Cuenta")">
+            <i class="fa fa-user-o"></i> Iniciar sesión
+        </a>
+    </li>
+}
+else
+{
+    <li>
+        <a href="@Url.Action("Perfil", "Usuario")">
+            <i class="fa fa-user-o"></i>
+            @Session["NombreUsuario"]
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("CerrarSesion", "Cuenta")">
+            <i class="fa fa-sign-out"></i> Cerrar sesión
+        </a>
+    </li>
+}
+
+
+CAMBIE el enlace del logo por:
+
+<a href="@Url.Action("Index", "Home")" class="logo">
+    <img src="@Url.Content("~/Content/img/logo.png")" alt="Ágata">
+</a>
+
+
+USE estos enlaces principales:
+
+<ul class="main-nav nav navbar-nav">
+    <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+    <li><a href="@Url.Action("Index", "Productos")">Productos</a></li>
+    <li><a href="#">Ofertas</a></li>
+    <li><a href="#">Ropa de mujer</a></li>
+    <li><a href="#">Accesorios</a></li>
+    @if (Session["IdUsuario"] != null)
+    {
+        <li><a href="@Url.Action("Perfil", "Usuario")">Mi perfil</a></li>
+    }
+</ul>
+
+
+AL FINAL, después de jquery.min.js y antes de @RenderSection, agregue:
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+
+@RenderSection("scripts", required: false)

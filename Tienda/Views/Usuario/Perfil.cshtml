@@ -1,0 +1,392 @@
+@model Tienda.Models.UsuarioModel
+
+@{
+    ViewBag.Title = "Mi perfil";
+
+    var nombreUsuario =
+        Session["NombreUsuario"] != null
+            ? Session["NombreUsuario"].ToString()
+            : string.Empty;
+
+    var tipoUsuario =
+        Session["TipoUsuario"] != null
+            ? Session["TipoUsuario"].ToString()
+            : string.Empty;
+
+    var esTemporal =
+        ViewBag.EsTemporal != null &&
+        Convert.ToBoolean(ViewBag.EsTemporal);
+
+    var claseSeguridad =
+        esTemporal
+            ? "col-md-6 col-md-offset-3"
+            : "col-md-5";
+}
+
+<div class="section auth-section">
+    <div class="container">
+
+        <!-- Encabezado del perfil -->
+        <div class="profile-heading text-center">
+            <i class="fa fa-user-circle-o profile-icon"></i>
+
+            <h2>@nombreUsuario</h2>
+
+            <p>
+                Tipo de usuario:
+                <strong>@tipoUsuario</strong>
+            </p>
+        </div>
+
+        <!-- Mensajes enviados mediante TempData -->
+        @if (TempData["MensajePerfil"] != null)
+        {
+            <div class="alert alert-warning">
+                <i class="fa fa-exclamation-triangle"></i>
+                @TempData["MensajePerfil"]
+            </div>
+        }
+
+        <!-- Aviso obligatorio de contraseña temporal -->
+        @if (esTemporal)
+        {
+            <div class="alert alert-warning text-center">
+                <i class="fa fa-lock"></i>
+
+                <strong>Contraseña temporal activa.</strong>
+
+                Debe establecer una nueva contraseña antes de continuar
+                utilizando las demás opciones de su cuenta.
+            </div>
+        }
+
+        <div class="row">
+
+            <!--
+                La información personal solamente se muestra cuando
+                el usuario NO está utilizando una contraseña temporal.
+            -->
+            @if (!esTemporal)
+            {
+                <div class="col-md-7">
+                    <div class="auth-card profile-card">
+
+                        <div class="auth-header">
+                            <h3>
+                                <i class="fa fa-user"></i>
+                                Información personal
+                            </h3>
+
+                            <p>
+                                Consulte y actualice la información
+                                asociada a su cuenta.
+                            </p>
+                        </div>
+
+                        @if (ViewBag.MensajePerfil != null)
+                        {
+                            <div class="alert alert-info">
+                                <i class="fa fa-info-circle"></i>
+                                @ViewBag.MensajePerfil
+                            </div>
+                        }
+
+                        @using (Html.BeginForm(
+                            "ActualizarPerfil",
+                            "Usuario",
+                            FormMethod.Post,
+                            new
+                            {
+                                id = "PerfilForm",
+                                autocomplete = "off"
+                            }))
+                        {
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Nombre">
+                                            Nombre
+                                        </label>
+
+                                        @Html.TextBoxFor(
+                                            m => m.Nombre,
+                                            new
+                                            {
+                                                @class = "input",
+                                                @placeholder = "Ingrese su nombre"
+                                            })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="Apellido">
+                                            Apellido
+                                        </label>
+
+                                        @Html.TextBoxFor(
+                                            m => m.Apellido,
+                                            new
+                                            {
+                                                @class = "input",
+                                                @placeholder = "Ingrese su apellido"
+                                            })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Correo">
+                                    Correo electrónico
+                                </label>
+
+                                @Html.TextBoxFor(
+                                    m => m.Correo,
+                                    new
+                                    {
+                                        @class = "input",
+                                        @type = "email",
+                                        @placeholder = "ejemplo@correo.com"
+                                    })
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Telefono">
+                                    Teléfono
+                                </label>
+
+                                @Html.TextBoxFor(
+                                    m => m.Telefono,
+                                    new
+                                    {
+                                        @class = "input",
+                                        @type = "tel",
+                                        @placeholder = "8888-8888"
+                                    })
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Preferencias">
+                                    Preferencias
+                                </label>
+
+                                @Html.TextAreaFor(
+                                    m => m.Preferencias,
+                                    new
+                                    {
+                                        @class = "input",
+                                        @rows = "3",
+                                        @placeholder =
+                                            "Ejemplo: vestidos, ropa casual, color negro..."
+                                    })
+                            </div>
+
+                            <hr />
+
+                            <h4>
+                                <i class="fa fa-map-marker"></i>
+                                Dirección
+                            </h4>
+
+                            <p>
+                                Complete provincia, cantón y distrito
+                                cuando desee guardar una dirección.
+                            </p>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Provincia">
+                                            Provincia
+                                        </label>
+
+                                        @Html.TextBoxFor(
+                                            m => m.Provincia,
+                                            new
+                                            {
+                                                @class = "input",
+                                                @placeholder = "Provincia"
+                                            })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Canton">
+                                            Cantón
+                                        </label>
+
+                                        @Html.TextBoxFor(
+                                            m => m.Canton,
+                                            new
+                                            {
+                                                @class = "input",
+                                                @placeholder = "Cantón"
+                                            })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Distrito">
+                                            Distrito
+                                        </label>
+
+                                        @Html.TextBoxFor(
+                                            m => m.Distrito,
+                                            new
+                                            {
+                                                @class = "input",
+                                                @placeholder = "Distrito"
+                                            })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Detalles">
+                                    Otras señas
+                                </label>
+
+                                @Html.TextAreaFor(
+                                    m => m.Detalles,
+                                    new
+                                    {
+                                        @class = "input",
+                                        @rows = "3",
+                                        @placeholder =
+                                            "Ingrese puntos de referencia u otras señas"
+                                    })
+                            </div>
+
+                            <button type="submit"
+                                    class="primary-btn auth-btn">
+
+                                <i class="fa fa-save"></i>
+                                Guardar cambios
+                            </button>
+                        }
+
+                    </div>
+                </div>
+            }
+
+            <!-- Seguridad -->
+            <div class="@claseSeguridad">
+                <div class="auth-card profile-card">
+
+                    <div class="auth-header">
+                        <h3>
+                            <i class="fa fa-lock"></i>
+                            Seguridad
+                        </h3>
+
+                        @if (esTemporal)
+                        {
+                            <p>
+                                Cree una nueva contraseña para sustituir
+                                la contraseña temporal.
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                Puede actualizar la contraseña de su cuenta.
+                            </p>
+                        }
+                    </div>
+
+                    @using (Html.BeginForm(
+                        "CambiarContrasena",
+                        "Usuario",
+                        FormMethod.Post,
+                        new
+                        {
+                            id = "ContrasenaForm",
+                            autocomplete = "off"
+                        }))
+                    {
+                        <div class="form-group">
+                            <label for="Contrasena">
+                                Nueva contraseña
+                            </label>
+
+                            @Html.PasswordFor(
+                                m => m.Contrasena,
+                                new
+                                {
+                                    @class = "input",
+                                    @placeholder = "Mínimo 8 caracteres",
+                                    @autocomplete = "new-password"
+                                })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ConfirmarContrasena">
+                                Confirmar contraseña
+                            </label>
+
+                            @Html.PasswordFor(
+                                m => m.ConfirmarContrasena,
+                                new
+                                {
+                                    @class = "input",
+                                    @placeholder = "Repita la contraseña",
+                                    @autocomplete = "new-password"
+                                })
+                        </div>
+
+                        <button type="submit"
+                                class="primary-btn auth-btn">
+
+                            <i class="fa fa-key"></i>
+
+                            @if (esTemporal)
+                            {
+                                <span>
+                                    Establecer nueva contraseña
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    Cambiar contraseña
+                                </span>
+                            }
+                        </button>
+                    }
+
+                    <div class="auth-note">
+                        <strong>Requisitos de la contraseña:</strong>
+
+                        <ul>
+                            <li>Mínimo 8 caracteres.</li>
+                            <li>Al menos una letra mayúscula.</li>
+                            <li>Al menos una letra minúscula.</li>
+                            <li>Al menos un número.</li>
+                            <li>Al menos un carácter especial.</li>
+                        </ul>
+
+                        @if (esTemporal)
+                        {
+                            <p>
+                                La nueva contraseña debe ser diferente
+                                de la contraseña temporal.
+                            </p>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/perfil.js")"></script>
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5052fac40b8c4225a55ad80d77c34ca3" Name="Diagram1">
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Carrito" Width="1.5" PointX="3" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.CarritoDetalle" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Categoria" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Direccion" Width="1.5" PointX="5.25" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.ErrorSistema" Width="1.5" PointX="7.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Favorito" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.HistorialPunto" Width="1.5" PointX="8.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Marca" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Pedido" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.PedidoDetalle" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Producto" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.ProductoPromocion" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Promocion" Width="1.5" PointX="3" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="AgataMakeUpDBModel.Usuario" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_Carrito_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_CarritoDetalle_Carrito" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_CarritoDetalle_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_Producto_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_Direccion_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_Favorito_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_Favorito_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_HistorialPuntos_Pedido" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_HistorialPuntos_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_Producto_Marca" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_Pedido_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_PedidoDetalle_Pedido" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_PedidoDetalle_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_ProductoPromocion_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="AgataMakeUpDBModel.FK_ProductoPromocion_Promocion" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

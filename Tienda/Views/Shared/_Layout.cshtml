@@ -48,8 +48,35 @@
                     <li><a href="#"><i class="fa fa-map-marker"></i> San José, Costa Rica</a></li>
                 </ul>
                 <ul class="header-links pull-right">
-                    <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                    <li><a href="@Url.Action("Login", "Cuenta")"><i class="fa fa-user-o"></i> Mi Cuenta</a></li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-dollar"></i> USD
+                        </a>
+                    </li>
+
+                    @if (Session["IdUsuario"] == null)
+                    {
+                        <li>
+                            <a href="@Url.Action("Login", "Cuenta")">
+                                <i class="fa fa-user-o"></i> Iniciar sesión
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@Url.Action("Perfil", "Usuario")">
+                                <i class="fa fa-user-o"></i>
+                                @Session["NombreUsuario"]
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("CerrarSesion", "Cuenta")">
+                                <i class="fa fa-sign-out"></i> Cerrar sesión
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -63,8 +90,9 @@
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo">
-                            <a href="#" class="logo">
-                                <img src="@Url.Content("~/Content/img/logo.png")" alt="">
+                            <a href="@Url.Action("Index", "Home")" class="logo">
+                                <img src="@Url.Content("~/Content/img/logo.png")"
+                                     alt="Ágata">
                             </a>
                         </div>
                     </div>
@@ -165,13 +193,31 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li class="active"><a href="#">Inicio</a></li>
+                    <li>
+                        <a href="@Url.Action("Index", "Home")">
+                            Inicio
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("Index", "Productos")">
+                            Productos
+                        </a>
+                    </li>
+
                     <li><a href="#">Ofertas</a></li>
                     <li><a href="#">Categorías</a></li>
-                    <li><a href="#">Maquillaje</a></li>
                     <li><a href="#">Ropa de mujer</a></li>
-                    <li><a href="#">Cuidado facial</a></li>
                     <li><a href="#">Accesorios</a></li>
+
+                    @if (Session["IdUsuario"] != null)
+                    {
+                        <li>
+                            <a href="@Url.Action("Perfil", "Usuario")">
+                                Mi perfil
+                            </a>
+                        </li>
+                    }
                 </ul>
                 <!-- /NAV -->
             </div>
