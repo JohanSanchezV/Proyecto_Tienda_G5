@@ -1,0 +1,186 @@
+﻿@using System.Linq
+@model Tienda.Models.CarritoModel
+
+@{
+    ViewBag.Title = "Carrito de compras";
+}
+
+<div class="section">
+    <div class="container">
+        <div class="section-title">
+            <h3 class="title">Carrito de compras</h3>
+        </div>
+        <!-- Mensajes de éxito y error -->
+        @if (TempData["MensajeExito"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["MensajeExito"]
+            </div>
+        }
+
+        @if (TempData["MensajeError"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["MensajeError"]
+            </div>
+        }
+        <!-- Verifica si el carrito contiene productos -->
+        @if (Model != null &&
+             Model.Productos != null &&
+             Model.Productos.Any())
+        {
+            <div class="row">
+
+                <!-- Productos del carrito -->
+                <div class="col-md-8 col-sm-12">
+
+                    <div class="cart-products">
+
+                        <h4>Mi carrito</h4>
+
+                        @foreach (var producto in Model.Productos)
+                        {
+                            <div class="cart-product">
+
+                                <div class="cart-product-img">
+                                    <img src="@Url.Content(producto.ImagenUrl)"
+                                         alt="@producto.NombreProducto"
+                                         class="img-responsive" />
+                                </div>
+
+                                <div class="cart-product-body">
+
+                                    <h4 class="cart-product-name">
+                                        @producto.NombreProducto
+                                    </h4>
+
+                                    <div class="row">
+
+                                        <div class="col-sm-4">
+                                            <strong>Cantidad:</strong>
+
+                                            <div class="cart-quantity">
+                                                <!-- Controles para aumentar o disminuir la cantidad -->
+                                                @using (Html.BeginForm(
+                                                    "DisminuirCantidad",
+                                                    "Carrito",
+                                                    FormMethod.Post))
+                                                {
+                                                    @Html.Hidden("idDetalle", producto.IdDetalle)
+
+                                                    <button type="submit"
+                                                            class="btn btn-default btn-sm"
+                                                            @(producto.Cantidad <= 1 ? "disabled" : "")>
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                }
+
+                                                <span class="cart-quantity-value">
+                                                    @producto.Cantidad
+                                                </span>
+
+                                                @using (Html.BeginForm(
+                                                    "AumentarCantidad",
+                                                    "Carrito",
+                                                    FormMethod.Post))
+                                                {
+                                                    @Html.Hidden("idDetalle", producto.IdDetalle)
+
+                                                    <button type="submit"
+                                                            class="btn btn-default btn-sm"
+                                                            @(producto.Cantidad >= producto.Stock ? "disabled" : "")>
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <p>
+                                                <strong>Precio:</strong>
+                                                ₡@producto.Precio.ToString("N2")
+                                            </p>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <p>
+                                                <strong>Subtotal:</strong>
+                                                ₡@producto.Subtotal.ToString("N2")
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                    @using (Html.BeginForm("Eliminar", "Carrito", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("idDetalle", producto.IdDetalle)
+
+                                        <button type="submit"
+                                                class="btn btn-danger"
+                                                onclick="return confirm('¿Deseas eliminar este producto del carrito?');">
+                                            <i class="fa fa-trash"></i>
+                                            Eliminar
+                                        </button>
+                                    }
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+                <!-- Resumen -->
+                <div class="col-md-4 col-sm-12">
+
+                    <div class="cart-summary-box">
+
+                        <h4>Resumen</h4>
+
+                        <div class="cart-summary-row">
+                            <span>
+                                @Model.Productos.Sum(x => x.Cantidad) productos
+                            </span>
+
+                            <span>
+                                ₡@Model.Subtotal.ToString("N2")
+                            </span>
+                        </div>
+
+                        <div class="cart-summary-total">
+                            <span>Total:</span>
+
+                            <span>
+                                ₡@Model.Total.ToString("N2")
+                            </span>
+                        </div>
+
+                        <a href="@Url.Action("Index", "Compra")"
+                           class="primary-btn btn-block">
+                            Proceder con la compra
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        }
+        else
+        {
+    <div class="empty-cart">
+        <!-- Mensaje mostrado cuando el carrito está vacío -->
+        <h3>Tu carrito de compras está vacío.</h3>
+
+        <a href="@Url.Action("Index", "Productos")"
+           class="primary-btn">
+            Volver al menú de compras
+        </a>
+
+    </div>
+        }
+
+    </div>
+</div>

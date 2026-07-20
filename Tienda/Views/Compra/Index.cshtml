@@ -1,0 +1,223 @@
+﻿@model Tienda.Models.CompraModel
+
+@{
+    ViewBag.Title = "Confirmar compra";
+}
+
+<!-- SECTION -->
+<div class="section">
+    <div class="container">
+
+        <!-- Mensajes de error -->
+        @if (TempData["MensajeError"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["MensajeError"]
+            </div>
+        }
+
+        @using (Html.BeginForm(
+            "ProcesarCompra",
+            "Compra",
+            FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(modelo => modelo.IdCarrito)
+            @Html.HiddenFor(modelo => modelo.IdDireccion)
+
+            <div class="row">
+
+                <!-- Datos del cliente y dirección de entrega -->
+                <div class="col-md-7">
+
+                    <div class="billing-details">
+
+                        <div class="section-title">
+                            <h3 class="title">
+                                Datos del cliente
+                            </h3>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nombre completo</label>
+
+                            <input class="input"
+                                   type="text"
+                                   value="@Model.NombreCompleto"
+                                   readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Correo electrónico</label>
+
+                            <input class="input"
+                                   type="text"
+                                   value="@Model.Correo"
+                                   readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Teléfono</label>
+
+                            <input class="input"
+                                   type="text"
+                                   value="@Model.Telefono"
+                                   readonly />
+                        </div>
+
+                        <div class="section-title">
+                            <h3 class="title">
+                                Dirección de entrega
+                            </h3>
+                        </div>
+
+                        <!-- Aviso mostrado cuando el usuario no tiene dirección -->
+                        @if (!Model.IdDireccion.HasValue)
+                        {
+                            <div class="alert alert-info">
+                                Debes registrar una dirección para completar la compra.
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label>Provincia</label>
+
+                            @Html.TextBoxFor(
+                                modelo => modelo.Provincia,
+                                new
+                                {
+                                    @class = "input",
+                                    placeholder = "Provincia",
+                                    required = "required"
+                                })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cantón</label>
+
+                            @Html.TextBoxFor(
+                                modelo => modelo.Canton,
+                                new
+                                {
+                                    @class = "input",
+                                    placeholder = "Cantón",
+                                    required = "required"
+                                })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Distrito</label>
+
+                            @Html.TextBoxFor(
+                                modelo => modelo.Distrito,
+                                new
+                                {
+                                    @class = "input",
+                                    placeholder = "Distrito",
+                                    required = "required"
+                                })
+                        </div>
+
+                        <div class="form-group">
+                            <label>Detalles de la dirección</label>
+
+                            @Html.TextAreaFor(
+                                modelo => modelo.DetallesDireccion,
+                                new
+                                {
+                                    @class = "input",
+                                    placeholder = "Señas exactas, número de casa u otras indicaciones",
+                                    rows = "4"
+                                })
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Resumen del pedido -->
+                <div class="col-md-5 order-details">
+
+                    <div class="section-title text-center">
+                        <h3 class="title">
+                            Resumen del pedido
+                        </h3>
+                    </div>
+
+                    <div class="order-summary">
+
+                        <div class="order-col">
+                            <div>
+                                <strong>PRODUCTO</strong>
+                            </div>
+
+                            <div>
+                                <strong>SUBTOTAL</strong>
+                            </div>
+                        </div>
+
+                        <div class="order-products">
+
+                            @foreach (var producto in Model.Productos)
+                            {
+                                <div class="order-col">
+
+                                    <div>
+                                        @producto.Cantidad x
+                                        @producto.NombreProducto
+                                    </div>
+
+                                    <div>
+                                        ₡@producto.Subtotal.ToString("N2")
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+
+                        <div class="order-col">
+                            <div>Subtotal</div>
+
+                            <div>
+                                ₡@Model.Subtotal.ToString("N2")
+                            </div>
+                        </div>
+
+                        <div class="order-col">
+                            <div>Descuento</div>
+
+                            <div>
+                                ₡@Model.Descuento.ToString("N2")
+                            </div>
+                        </div>
+
+                        <div class="order-col">
+                            <div>
+                                <strong>TOTAL</strong>
+                            </div>
+
+                            <div>
+                                <strong class="order-total">
+                                    ₡@Model.Total.ToString("N2")
+                                </strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button type="submit"
+                            class="primary-btn order-submit"
+                            onclick="return confirm('¿Deseas confirmar esta compra?');">
+                        Confirmar compra
+                    </button>
+
+                </div>
+                <!-- /Resumen del pedido -->
+
+            </div>
+        }
+
+    </div>
+</div>
+<!-- /SECTION -->

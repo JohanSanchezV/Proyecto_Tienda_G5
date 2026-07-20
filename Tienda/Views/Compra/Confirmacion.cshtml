@@ -1,0 +1,168 @@
+﻿@model Tienda.Models.ConfirmacionCompraModel
+
+@{
+    ViewBag.Title = "Confirmación de compra";
+}
+
+<!-- SECTION -->
+<div class="section">
+    <div class="container">
+
+        <!-- Mensaje de compra exitosa -->
+        @if (TempData["MensajeExito"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["MensajeExito"]
+            </div>
+        }
+
+        <div class="row">
+
+            <!-- Información general del pedido -->
+            <div class="col-md-5 col-sm-12">
+
+                <div class="cart-summary-box">
+
+                    <h3>Compra realizada correctamente</h3>
+
+                    <p>
+                        Tu pedido fue registrado con éxito.
+                    </p>
+
+                    <hr />
+
+                    <p>
+                        <strong>Número de pedido:</strong>
+                        #@Model.IdPedido
+                    </p>
+
+                    <p>
+                        <strong>Fecha:</strong>
+
+                        @if (Model.FechaPedido.HasValue)
+                        {
+                            @Model.FechaPedido.Value.ToString("dd/MM/yyyy HH:mm")
+                        }
+                    </p>
+
+                    <p>
+                        <strong>Estado:</strong>
+                        @Model.Estado
+                    </p>
+
+                    <hr />
+
+                    <h4>Dirección de entrega</h4>
+
+                    <p>
+                        @Model.ProvinciaEntrega,
+                        @Model.CantonEntrega,
+                        @Model.DistritoEntrega
+                    </p>
+
+                    @if (!string.IsNullOrWhiteSpace(
+                        Model.DetallesEntrega))
+                    {
+                        <p>
+                            @Model.DetallesEntrega
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+            <!-- Detalles del pedido -->
+            <div class="col-md-7 col-sm-12">
+
+                <div class="order-details">
+
+                    <div class="section-title text-center">
+                        <h3 class="title">
+                            Detalles del pedido
+                        </h3>
+                    </div>
+
+                    <div class="order-summary">
+
+                        <div class="order-col">
+                            <div>
+                                <strong>PRODUCTO</strong>
+                            </div>
+
+                            <div>
+                                <strong>SUBTOTAL</strong>
+                            </div>
+                        </div>
+
+                        <div class="order-products">
+
+                            @foreach (var producto in Model.Productos)
+                            {
+                                <div class="order-col">
+
+                                    <div>
+                                        @producto.Cantidad x
+                                        @producto.NombreProducto
+
+                                        <br />
+
+                                        <small>
+                                            Precio unitario:
+                                            ₡@producto.PrecioUnitario.ToString("N2")
+                                        </small>
+                                    </div>
+
+                                    <div>
+                                        ₡@producto.Subtotal.ToString("N2")
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+
+                        <div class="order-col">
+                            <div>Subtotal</div>
+
+                            <div>
+                                ₡@Model.Subtotal.ToString("N2")
+                            </div>
+                        </div>
+
+                        <div class="order-col">
+                            <div>Descuento</div>
+
+                            <div>
+                                ₡@Model.Descuento.ToString("N2")
+                            </div>
+                        </div>
+
+                        <div class="order-col">
+                            <div>
+                                <strong>TOTAL</strong>
+                            </div>
+
+                            <div>
+                                <strong class="order-total">
+                                    ₡@Model.Total.ToString("N2")
+                                </strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <a href="@Url.Action("Index", "Productos")"
+                       class="primary-btn order-submit">
+                        Seguir comprando
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- /SECTION -->
