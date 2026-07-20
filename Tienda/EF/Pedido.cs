@@ -28,11 +28,17 @@ namespace Tienda.EF
         public decimal subtotal { get; set; }
         public Nullable<decimal> descuento { get; set; }
         public decimal total { get; set; }
+        public Nullable<int> id_direccion { get; set; }
+        public string provincia_entrega { get; set; }
+        public string canton_entrega { get; set; }
+        public string distrito_entrega { get; set; }
+        public string detalles_entrega { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistorialPunto> HistorialPuntos { get; set; }
         public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidoDetalle> PedidoDetalles { get; set; }
+        public virtual Direccion Direccion { get; set; }
     }
 }

@@ -14,6 +14,12 @@ namespace Tienda.EF
     
     public partial class Direccion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Direccion()
+        {
+            this.Pedidoes = new HashSet<Pedido>();
+        }
+    
         public int id_direccion { get; set; }
         public int id_usuario { get; set; }
         public string provincia { get; set; }
@@ -22,5 +28,7 @@ namespace Tienda.EF
         public string detalles { get; set; }
     
         public virtual Usuario Usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pedido> Pedidoes { get; set; }
     }
 }

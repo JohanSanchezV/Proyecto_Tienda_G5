@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AgataMakeUpDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AgataMakeUpDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Carrito">
           <Key>
             <PropertyRef Name="id_carrito" />
@@ -95,6 +95,11 @@
           <Property Name="subtotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="descuento" Type="decimal" Precision="10" Scale="2" />
           <Property Name="total" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="id_direccion" Type="int" />
+          <Property Name="provincia_entrega" Type="varchar" MaxLength="100" />
+          <Property Name="canton_entrega" Type="varchar" MaxLength="100" />
+          <Property Name="distrito_entrega" Type="varchar" MaxLength="100" />
+          <Property Name="detalles_entrega" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="PedidoDetalle">
           <Key>
@@ -256,6 +261,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Pedido_Direccion">
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="0..1" />
+          <End Role="Pedido" Type="Self.Pedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direccion">
+              <PropertyRef Name="id_direccion" />
+            </Principal>
+            <Dependent Role="Pedido">
+              <PropertyRef Name="id_direccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pedido_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Pedido" Type="Self.Pedido" Multiplicity="*" />
@@ -393,6 +410,10 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="HistorialPuntos" EntitySet="HistorialPuntos" />
           </AssociationSet>
+          <AssociationSet Name="FK_Pedido_Direccion" Association="Self.FK_Pedido_Direccion">
+            <End Role="Direccion" EntitySet="Direccion" />
+            <End Role="Pedido" EntitySet="Pedido" />
+          </AssociationSet>
           <AssociationSet Name="FK_Pedido_Usuario" Association="Self.FK_Pedido_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Pedido" EntitySet="Pedido" />
@@ -422,8 +443,7 @@
             <End Role="ProductoPromocion" EntitySet="ProductoPromocion" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AgataMakeUpDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -471,6 +491,7 @@
           <Property Name="distrito" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="detalles" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Direccion_Usuario" FromRole="Direccion" ToRole="Usuario" />
+          <NavigationProperty Name="Pedidoes" Relationship="AgataMakeUpDBModel.FK_Pedido_Direccion" FromRole="Direccion" ToRole="Pedido" />
         </EntityType>
         <EntityType Name="ErrorSistema">
           <Key>
@@ -531,6 +552,12 @@
           <NavigationProperty Name="HistorialPuntos" Relationship="Self.FK_HistorialPuntos_Pedido" FromRole="Pedido" ToRole="HistorialPuntos" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Pedido_Usuario" FromRole="Pedido" ToRole="Usuario" />
           <NavigationProperty Name="PedidoDetalles" Relationship="Self.FK_PedidoDetalle_Pedido" FromRole="Pedido" ToRole="PedidoDetalle" />
+          <Property Name="id_direccion" Type="Int32" />
+          <Property Name="provincia_entrega" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="canton_entrega" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="distrito_entrega" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="detalles_entrega" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Direccion" Relationship="AgataMakeUpDBModel.FK_Pedido_Direccion" FromRole="Pedido" ToRole="Direccion" />
         </EntityType>
         <EntityType Name="PedidoDetalle">
           <Key>
@@ -873,7 +900,23 @@
             <Parameter Name="Lugar" Mode="In" Type="String" />
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_Pedido_Direccion" Association="AgataMakeUpDBModel.FK_Pedido_Direccion">
+            <End Role="Direccion" EntitySet="Direccions" />
+            <End Role="Pedido" EntitySet="Pedidoes" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Pedido_Direccion">
+          <End Type="AgataMakeUpDBModel.Direccion" Role="Direccion" Multiplicity="0..1" />
+          <End Type="AgataMakeUpDBModel.Pedido" Role="Pedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direccion">
+              <PropertyRef Name="id_direccion" />
+            </Principal>
+            <Dependent Role="Pedido">
+              <PropertyRef Name="id_direccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -970,6 +1013,11 @@
           <EntitySetMapping Name="Pedidoes">
             <EntityTypeMapping TypeName="AgataMakeUpDBModel.Pedido">
               <MappingFragment StoreEntitySet="Pedido">
+                <ScalarProperty Name="detalles_entrega" ColumnName="detalles_entrega" />
+                <ScalarProperty Name="distrito_entrega" ColumnName="distrito_entrega" />
+                <ScalarProperty Name="canton_entrega" ColumnName="canton_entrega" />
+                <ScalarProperty Name="provincia_entrega" ColumnName="provincia_entrega" />
+                <ScalarProperty Name="id_direccion" ColumnName="id_direccion" />
                 <ScalarProperty Name="id_pedido" ColumnName="id_pedido" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="fecha_pedido" ColumnName="fecha_pedido" />
